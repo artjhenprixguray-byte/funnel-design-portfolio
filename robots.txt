@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Demo and 404 pages use HTML noindex so crawlers can read that directive.
+Sitemap: https://artjhenprixguray-byte.github.io/funnel-design-portfolio/sitemap.xml
+# For a project site, also place this directive in the account root robots.txt.

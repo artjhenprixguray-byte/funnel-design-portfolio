@@ -1,20 +1,13 @@
 # Art Jhen Prix Guray — Funnel Design Portfolio
 
-A responsive, static portfolio with three original concept projects, case studies, and interactive sample pages. Built with HTML, CSS, and JavaScript. No installation or build step required.
+Static HTML, CSS and JavaScript on GitHub Pages. No build step or backend.
 
-## Preview
+- `index.html`: portfolio, services, About, pilot offer, project form and checklist setup.
+- `*-case-study.html`: static indexable case studies with structural wireframes and responsive screenshots.
+- `demo.html` / `demo.js`: interactive concepts, noindex, no transmission or storage.
+- `config.js`: public Formspree, booking, PDF and social URL setup slots.
+- `app.js`: honest email-draft fallback, optional Formspree submission, modal keyboard handling, optional CTA analytics hooks.
+- `styles.css`: existing cream/editorial identity, responsive and focus styles.
+- `SETUP.md`: exact remaining setup and confirmation steps.
 
-Open `index.html` in a browser. All pages also work on any static web server.
-
-## GitHub Pages
-
-Upload these files to the root of a GitHub repository. In repository Settings → Pages, choose **Deploy from a branch**, select **main** and **/ (root)**, then save. GitHub will show the published address when deployment completes. Availability depends on repository visibility and account plan.
-
-## Edit
-
-- `index.html`: name, email, portfolio copy and project previews.
-- `styles.css`: colors, typography and responsive layouts.
-- `app.js`: concept case studies and modal behavior.
-- `demo.html` / `demo.js`: interactive funnel sample pages.
-
-Contact buttons open an email draft to artjhenprix.guray@gmail.com. Demo forms do not send or store data. All three brands are fictional; no client relationships, testimonials, or conversion results are claimed. Google Fonts supplies optional typography; local fallback fonts are included. No analytics or tracking are installed.
+Open index.html locally or serve the folder with any static server. GitHub Pages deploys main / root. All brands are fictional; no fabricated clients, testimonials or results. Proposed pricing and timelines remain visibly marked as drafts. Direct form delivery, booking, PDF delivery and analytics remain unconnected until configured.

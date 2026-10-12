@@ -1,4 +1,76 @@
-const cases={coaching:{title:'Align: make the first conversation feel easier.',goal:'Help an independent coach explain a high-consideration offer and invite visitors to a discovery call.',flow:'Offer introduction → audience fit → coaching framework → common questions → short application.',decisions:'A warm, quiet palette gives the message space. The headline focuses on the visitor’s aspiration. The application appears after the visitor understands the offer, and asks only for essentials.',measure:'In a live project, I would review application starts, completion rate, and qualified call bookings. No performance data has been collected for this concept.'},course:{title:'Forma: make an intangible offer concrete.',goal:'Help a creator explain a brand foundations course to visitors who need to understand what they will learn before committing.',flow:'Core promise → curriculum → intended audience → offer details → interest registration.',decisions:'A confident typographic direction reflects the course subject. Specific modules make the offer easier to evaluate. One repeated action keeps the page focused without invented urgency.',measure:'A live version could track curriculum engagement and checkout progression. This concept uses a demo interest form; there is no real product or checkout.'},lead:{title:'Fieldnotes: lead with usefulness.',goal:'Introduce a planning resource and make its value clear before asking visitors for their email.',flow:'Resource preview → practical benefits → short opt-in → confirmation and sample exercise.',decisions:'The guide preview makes the download tangible. A focused headline and short form reduce distraction. The confirmation gives visitors an immediate next step.',measure:'A live version could track opt-in completion and email-confirmation rate. This demo does not collect or transmit visitor information.'}};
-const dialog=document.querySelector('#case-dialog');
-document.querySelectorAll('[data-case]').forEach(button=>button.addEventListener('click',()=>{const key=button.dataset.case,c=cases[key];document.querySelector('#case-title').textContent=c.title;const body=document.querySelector('#case-body');body.replaceChildren();[['The brief',c.goal],['The journey',c.flow],['The design decisions',c.decisions],['What I would validate',c.measure]].forEach(([title,text])=>{const h=document.createElement('h3'),p=document.createElement('p');h.textContent=title;p.textContent=text;body.append(h,p)});document.querySelector('#case-link').href=`demo.html?project=${key}`;dialog.showModal()}));
-document.querySelector('.close')?.addEventListener('click',()=>dialog.close());dialog?.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});document.querySelector('#year').textContent=new Date().getFullYear();
+(() => {
+  'use strict';
+  const config = window.PORTFOLIO_CONFIG || {};
+  const httpsUrl = value => { try { const u = new URL(value); return u.protocol === 'https:' && !/[\[\]]/.test(value) ? u.href : ''; } catch { return ''; } };
+  const endpoint = /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(config.formEndpoint || '') ? config.formEndpoint : '';
+  const pdf = httpsUrl(config.checklistPdfUrl);
+  const year = document.querySelector('#year'); if (year) year.textContent = new Date().getFullYear();
+  // Add the exact Plausible dashboard snippet to the HTML to activate analytics.
+  // Deliberately do not queue events or attach form data to analytics.
+  const track = name => { if (typeof window.plausible === 'function') window.plausible(name); };
+  document.addEventListener('click', event => { const cta = event.target.closest('[data-track]'); if (cta) track(cta.dataset.track); });
+  const booking = document.querySelector('#booking-link');
+  if (booking && httpsUrl(config.bookingUrl)) { booking.href = httpsUrl(config.bookingUrl); booking.textContent = 'Book a free 15-minute funnel review'; document.querySelector('#booking-note').textContent = 'Choose an available time on my booking page.'; }
+  document.querySelectorAll('[data-review]').forEach(link => link.addEventListener('click', () => { const select = document.querySelector('#project-type'); if (select) select.value = 'Free 15-minute funnel review'; }));
+  const socials = document.querySelector('#social-links');
+  if (socials) (config.socialLinks || []).forEach(item => { const url = httpsUrl(item.url); if (!url || !item.label) return; const a = document.createElement('a'); a.href = url; a.textContent = item.label; a.className = 'text-button'; socials.append(a); socials.hidden = false; });
+  document.querySelectorAll('[data-static-form]').forEach(form => {
+    const kind = form.dataset.staticForm;
+    const button = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('.form-status');
+    const ready = !!endpoint && (kind !== 'checklist' || !!pdf);
+    if (kind === 'project') button.disabled = false;
+    if (ready) {
+      form.action = endpoint; form.method = 'POST'; button.disabled = false;
+      button.textContent = kind === 'project' ? 'Send project enquiry' : 'Get the 5-point checklist';
+      if (kind === 'project') document.querySelector('#project-form-note').textContent = 'Your details will be sent through Formspree to Art to respond to your enquiry.';
+      else { document.querySelector('#checklist .draft-note').hidden = true; document.querySelector('#checklist-privacy').textContent = 'Your name and email go through Formspree for this checklist request. No newsletter signup is implied. See Privacy for details.'; }
+    }
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      if (!ready) {
+        if (kind === 'checklist') { status.textContent = 'Signup is not connected yet. Nothing was sent.'; return; }
+        const body = `Name: ${data.get('name')}\nEmail: ${data.get('email')}\nProject: ${data.get('project')}\n\n${data.get('message')}`;
+        const link = form.querySelector('[data-email-draft]');
+        link.href = 'mailto:artjhenprix.guray@gmail.com?subject=' + encodeURIComponent('Portfolio enquiry: ' + data.get('project')) + '&body=' + encodeURIComponent(body);
+        link.hidden = false;
+        status.textContent = 'Your draft is ready. Nothing has been sent. Open it below, review it, and send it from your email app. If your email app does not open, use the email address beside this form.';
+        status.focus(); track('Email Draft Prepared'); return;
+      }
+      button.disabled = true; button.textContent = 'Sending…'; status.textContent = '';
+      data.set('_subject', kind === 'checklist' ? '5-point funnel checklist request' : 'Portfolio project enquiry');
+      const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' }, signal: controller.signal });
+        if (!response.ok) throw new Error('Submission failed');
+        status.textContent = kind === 'project' ? 'Thank you. Your enquiry has been submitted. Art will follow up by email.' : 'Thank you for requesting the checklist. Your download is below.';
+        if (kind === 'checklist') { const a = form.querySelector('[data-checklist-download]'); a.href = pdf; a.hidden = false; }
+        form.reset(); track(kind === 'project' ? 'Project Enquiry Submitted' : 'Checklist Requested');
+      } catch {
+        status.textContent = 'Delivery could not be confirmed. Your details are still here. Please try again or contact Art by email. If the connection timed out, avoid repeated submissions.';
+      } finally { clearTimeout(timeout); button.disabled = false; button.textContent = kind === 'project' ? 'Send project enquiry' : 'Get the 5-point checklist'; status.focus(); }
+    });
+  });
+  const dialog = document.querySelector('#image-dialog');
+  if (dialog) {
+    let opener;
+    document.querySelectorAll('[data-image]').forEach(button => button.addEventListener('click', () => {
+      opener = button; document.querySelector('#image-title').textContent = button.dataset.title;
+      const image = document.querySelector('#modal-image'); image.src = button.dataset.image; image.alt = button.querySelector('img').alt;
+      dialog.showModal(); document.body.classList.add('modal-open'); dialog.querySelector('.close').focus();
+    }));
+    dialog.querySelector('.close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('cancel', event => { event.preventDefault(); dialog.close(); });
+    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); opener?.focus(); });
+    dialog.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const items = [...dialog.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),[tabindex="0"]')].filter(el => !el.hidden);
+      const first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    dialog.addEventListener('click', event => { if (event.target !== dialog) return; const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); });
+  }
+})();

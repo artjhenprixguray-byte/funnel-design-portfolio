@@ -1,52 +1,52 @@
-# Phase A setup slots
+# Portfolio update — setup and testing
 
-The current site deliberately distinguishes concept work, draft commercial terms, and unconnected services.
+Upload the CONTENTS of this folder to the root of artjhenprixguray-byte/funnel-design-portfolio. Keep GitHub Pages on main / root. There is no build command.
 
-## Confirm before presenting these as final terms
+## Files
+- index.html: complete homepage, inline styles and scripts; edit its CONFIG block near the bottom.
+- demo.html: complete self-contained interactive concepts. Keep ?project=coaching, ?project=course and ?project=lead. Demo pages are noindex and never send or store entered details.
+- align-case-study.html, forma-case-study.html, fieldnotes-case-study.html: indexable static case-study copy and image previews.
+- case.css: supporting-page styles.
+- profile.jpg: optimized About portrait.
+- og-image.png: complete 1200 × 630 sharing image.
+- *-desktop.jpg / *-mobile.jpg: responsive demo previews.
+- favicon.svg, sitemap.xml, robots.txt, 404.html, privacy.html: supporting assets.
+- styles.css, app.js and config.js: legacy supporting files used by the privacy page; homepage settings are now in index.html.
 
-- One-page starting rate: draft $250. Multi-page: draft $500. Confirm currency and scope.
-- Timeline: draft 5–7 business days / 2–3 weeks after brief and content.
-- Two consolidated revision rounds: draft.
-- Founding-client rate: first two projects; exact terms remain unconfirmed.
-- Payment schedule, response window, photo, background story, and profile URLs.
+## Confirmed details
+USD $500 one page; multi-page from USD $1,200. One page 7–10 business days; multi-page 4–5 weeks depending on difficulty, after brief/content. Two revision rounds. 50% before starting and 50% on completion before release. Coded builds or GoHighLevel; other platforms by agreed handoff.
 
-Edit the visible draft labels in `index.html` only after confirmation. Figma and HTML/CSS/JS are the specified tools. Do not add other platform expertise without verification.
+Calendly: https://calendly.com/artjhenprix-guray/30min — despite the legacy URL slug, the event is named Free 15-minute funnel review and lasts 15 minutes. Availability Monday–Friday 8 AM–5 PM Eastern, weekends unavailable. Visitors see times in their own timezone. No test appointment was created.
 
-## Connect enquiries and booking
+## Slots still to fill
+- Formspree endpoint: the HTTPS address that receives a form submission and delivers it to your inbox. Create a form in your own Formspree account, verify the destination email, then copy its endpoint into CONFIG.formEndpoint. This is a public form URL, not a password/API secret.
+- Checklist PDF: CONFIG.checklistPdfUrl. The checklist was not written or created. Signup stays disabled until endpoint AND PDF URL are set.
+- Confirm whether full copywriting is included or separately quoted.
+- Personal background/story, response-time commitment, genuine testimonial with permission.
+- Founding-client/pilot offer terms and availability; optional unsolicited redesign with a clear non-affiliation disclosure.
+- Real commercial terms inside the fictional Forma concept are deliberately absent; price/access/refund placeholders are not your freelance prices.
+- Plausible account installation code. Analytics is commented out; CTA hooks are ready. Use event names Book Review, Start Project, Open Demo, Read Case Study, Email Contact, WhatsApp Contact, Prepare Enquiry, Project Enquiry, Checklist Request. Never include contact details as properties.
+- Before direct collection, update privacy.html with your actual processing and retention terms. Test Formspree delivery and failure behavior with your own email after configuration.
 
-Edit `config.js`:
+## Make or replace the sharing image
+A ready-made og-image.png is included. To make a replacement:
+1. Create a 1200 × 630 px canvas in an image editor.
+2. Set the background to #f4f3ed; keep text at least 70 px from the edges.
+3. Add “Art Jhen Prix Guray / Funnel Design” at the top, followed by “Good design. Clear direction. One next step.” Use dark #242a26 text and a calm serif face.
+4. Export as PNG named exactly og-image.png, preferably below 300 KB.
+5. Put it beside index.html at the repo root. The Open Graph and Twitter tags already point to that URL.
+6. After deployment, open the image URL directly and refresh the relevant sharing platform's preview cache if needed.
 
-```js
-window.PORTFOLIO_CONFIG = {
-  formEndpoint: '', // Paste https://formspree.io/f/YOUR_FORM_ID
-  bookingUrl: '', // Paste your actual Cal.com or Calendly HTTPS event URL
-  checklistPdfUrl: '', // Paste the actual HTTPS PDF link
-  socialLinks: [], // { label: 'LinkedIn', url: 'https://...' }
-};
-```
+## Test before future publishing
+1. Open index.html locally; JavaScript requires no build. Use a local static server if you need to test live Formspree requests.
+2. At 360 px and 390 px widths, check navigation wrapping, long headings, forms, and the bottom CTA bars. Check desktop too.
+3. Use Tab/Shift+Tab through links, forms and case-study image dialogs. Escape closes the dialog; focus returns to the opener.
+4. Align: try empty/invalid fields, complete all steps with sample details, go back, review, then choose a mock time. No booking should occur.
+5. Forma: expand modules and FAQ; open the checkout preview. No payment fields or charge should exist.
+6. Fieldnotes: reject an invalid email, submit a sample valid email, then open the sample prompt. No delivery should be claimed.
+7. Contact: without an endpoint it prepares an email draft, which you send yourself. With an endpoint test successful delivery, validation and network failure. Checklist stays disabled until the PDF is real.
+8. Test reduced-motion settings and keyboard focus. Verify local links, the Calendly event, and social URLs. TikTok's profile could not be independently verified; its URL uses your supplied handle.
+9. Confirm 404 styling from a nested missing URL. Demos must remain noindex; case-study text should remain available without JavaScript.
+10. Commit/upload, wait for the Pages deployment, then check the public site in a fresh browser session.
 
-Only public URLs belong here. Never add API secrets. With a valid Formspree endpoint, JavaScript sets both forms' action and method and handles success, failure and timeout states. Until then, the project form prepares a mailto draft, clearly states that nothing was sent, and lets the visitor open it. No draft is sent automatically. The checklist stays unavailable until BOTH endpoint and PDF URL exist. The PDF has not been written or created.
-
-If you need delivery without JavaScript, set the real `action` and `method="POST"` directly on the HTML form, remove its disabled button, and configure the provider's redirect. Do not use a fake endpoint. Test with your own email only after setup, including failure and delivery behavior. When enabled, Formspree becomes a data processor: finalize retention information and update `privacy.html` before launch.
-
-Formspree setup reference: https://help.formspree.io/articles/building-your-form/building-an-html-form
-
-## Proof and About slots
-
-In `index.html`, search for `testimonial-slot`, `redesign-slot`, `background-slot`, `social-slots`, and `PHOTO SLOT`. Templates are inert and not exposed as fake proof. Replace templates with verified content before making them visible. Never remove the independent-concept disclosure from an unsolicited redesign. Obtain permission for any testimonial and external image.
-
-## Optional analytics
-
-No tracker is installed or active. Find `ANALYTICS SETUP SLOT` in the HTML files and insert the exact snippet supplied by your Plausible dashboard. Configure matching event goals: Explore Work, Funnel Review, Case Study, Open Demo, Contact CTA, About Contact, Case Contact, Pilot Project, Booking CTA, Email CTA, Email Draft Prepared, Project Enquiry Submitted, Checklist Requested.
-
-`app.js` calls `window.plausible()` only if it exists. It never sends form contents, email addresses, query parameters, or typed text as event properties. Update the privacy page when enabling analytics. Reference: https://plausible.io/docs/custom-event-goals
-
-## SEO and hosting
-
-Case-study text is static, indexable HTML. Demos retain `noindex` and are excluded from the sitemap. The sitemap has canonical URLs and no invented last-modified dates. Person/ProfessionalService markup contains only supplied details, with no invented ratings, address, or pricing.
-
-GitHub project hosting serves this repository under `/funnel-design-portfolio/`. Crawlers look for robots.txt at the ORIGIN root, not at a project path. The included robots.txt is ready to copy into the separate `artjhenprixguray-byte.github.io` root repository if you create/manage one. Submit the full sitemap URL directly to Search Console in the meantime. This upgrade does not create or change a different repository. The 404 page uses the project base path so its links work from nested missing URLs.
-
-## Assets and verification
-
-Real screenshots of the interactive concepts accompany structural wireframes. Screenshot images are lazy-loaded with intrinsic dimensions; no image framework or JavaScript build is required. Google Fonts use display=swap and system fallbacks. The wireframe dialog uses native showModal, a keyboard focus loop, Esc close and opener focus restoration. Follow-up checks should include 360px, 390px, desktop, keyboard-only use, no JavaScript, form provider delivery, and sharing previews after production caching settles.
+GitHub project-site robots.txt is not the origin robots.txt. Submit the full sitemap URL to Search Console; if you manage a separate artjhenprixguray-byte.github.io root repo, add the Sitemap directive there too.

@@ -1,13 +1,16 @@
-# Art Jhen Prix Guray — Funnel Design Portfolio
+# Art Jhen Prix Guray — Funnel Portfolio
+Static HTML/CSS/vanilla JavaScript. GitHub Pages hosts the repository root.
 
-Static HTML, CSS and JavaScript on GitHub Pages. No build step or backend.
+Read SETUP.md for confirmed terms, remaining setup slots, file placement and mobile tests.
+Homepage configuration is in the CONFIG block at the bottom of index.html.
+No form service or analytics tracker is active yet. Calendly booking is connected by link.
+The fictional concepts are clearly disclosed and never transmit or save input.
 
-- `index.html`: portfolio, services, About, pilot offer, project form and checklist setup.
-- `*-case-study.html`: static indexable case studies with structural wireframes and responsive screenshots.
-- `demo.html` / `demo.js`: interactive concepts, noindex, no transmission or storage.
-- `config.js`: public Formspree, booking, PDF and social URL setup slots.
-- `app.js`: honest email-draft fallback, optional Formspree submission, modal keyboard handling, optional CTA analytics hooks.
-- `styles.css`: existing cream/editorial identity, responsive and focus styles.
-- `SETUP.md`: exact remaining setup and confirmation steps.
-
-Open index.html locally or serve the folder with any static server. GitHub Pages deploys main / root. All brands are fictional; no fabricated clients, testimonials or results. Proposed pricing and timelines remain visibly marked as drafts. Direct form delivery, booking, PDF delivery and analytics remain unconnected until configured.
+## Changelog
+- Refined the supplied homepage into the cream editorial identity; improved mobile wrapping, focus, native form validation and honest email-draft feedback.
+- Added confirmed USD pricing, timelines, revisions, payment terms, coded/GHL platform options, portrait and social links. Removed unconfirmed platform claims.
+- Connected the verified 15-minute Calendly event.
+- Rebuilt Align, Forma and Fieldnotes with distinct identities and complete simulated journeys.
+- Rewrote static case studies around actual demo behavior and added accessible native image dialogs.
+- Added sharing image, SEO metadata, sitemap, matching 404, commented Plausible placeholder and CTA hooks.
+- Kept unavailable checklist delivery disabled and unconfirmed proof/commercial details as explicit setup slots.
